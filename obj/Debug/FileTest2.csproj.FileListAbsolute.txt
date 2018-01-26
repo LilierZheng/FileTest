@@ -1,0 +1,17 @@
+F:\Lily\FileTest\FileTest2\bin\Debug\FileTest2.exe.config
+F:\Lily\FileTest\FileTest2\bin\Debug\FileTest2.exe
+F:\Lily\FileTest\FileTest2\bin\Debug\FileTest2.pdb
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.csprojResolveAssemblyReference.cache
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.Properties.Resources.resources
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.csproj.GenerateResource.Cache
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.exe
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.pdb
+F:\Lily\FileTest\FileTest2\obj\Debug\Interop.IWshRuntimeLibrary.dll
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.csproj.ResolveComReference.cache
+F:\Lily\FileTest\FileTest2\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\Lily\FileTest\FileTest2\bin\Debug\NPOI.dll
+F:\Lily\FileTest\FileTest2\bin\Debug\NPOI.OOXML.dll
+F:\Lily\FileTest\FileTest2\bin\Debug\NPOI.OpenXml4Net.dll
+F:\Lily\FileTest\FileTest2\bin\Debug\NPOI.OpenXmlFormats.dll
+F:\Lily\FileTest\FileTest2\bin\Debug\NPOI.xml
+F:\Lily\FileTest\FileTest2\obj\Debug\FileTest2.FrmMain.resources
