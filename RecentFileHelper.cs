@@ -29,6 +29,10 @@ namespace FileTest2
                             where Path.GetExtension(file) == ".lnk"
                             select GetShortcutTargetFile(file);
             var result = listFiles.Where(p => File.Exists(p));
+            var sss = from file in Directory.EnumerateFiles(recentFolder) select file;
+            var rrr = sss.ToList()[0];
+            var r = GetShortcutTargetFile(rrr);
+            var ss = GetShortcutTargetFile(@"C:\Users\jdz\AppData\Roaming\Microsoft\Windows\Recent\FileDataBase.lnk");
             return result;
         }
         /// <summary>
@@ -53,9 +57,11 @@ namespace FileTest2
                 //设置列头  
                 row = sheet.CreateRow(0);//excel第一行设为列头  
                 row.CreateCell(0).SetCellValue("序号");
-                row.CreateCell(1).SetCellValue("文件路径");
-                row.CreateCell(2).SetCellValue("上次修改时间");
-                row.CreateCell(3).SetCellValue("是否重要");
+                row.CreateCell(1).SetCellValue("文件名");
+                row.CreateCell(2).SetCellValue("文件路径");
+                row.CreateCell(3).SetCellValue("上次修改时间");
+                row.CreateCell(4).SetCellValue("是否重要");
+                row.CreateCell(5).SetCellValue("文件备注");
                 foreach (var file in RecentFileHelper.GetRecentlyFiles())
                 {
                     if (File.Exists(file))
@@ -65,13 +71,19 @@ namespace FileTest2
                         row = sheet.CreateRow(k);
                         DataRow dRow = dt.NewRow();
                         dRow["序号"] = k;
+                        dRow["文件名"] = fi.Name;
                         dRow["文件路径"] = file;
                         dRow["上次修改时间"] = fi.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss");
                         dRow["是否重要"] = false;
+                        dRow["文件备注"] = null;
                         dt.Rows.Add(dRow);
                         row.CreateCell(0).SetCellValue(k);
-                        row.CreateCell(1).SetCellValue(file);
-                        row.CreateCell(2).SetCellValue(fi.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss"));
+                        row.CreateCell(1).SetCellValue(fi.Name);
+                        row.CreateCell(2).SetCellValue(file);
+                        row.CreateCell(3).SetCellValue(fi.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss"));
+                        row.CreateCell(4).SetCellValue(false);
+                        row.CreateCell(5).SetCellValue("");
+
                     }
                 }
             }
@@ -106,7 +118,7 @@ namespace FileTest2
                 bool flag = false;
                 for (int i = 1; i < rowCount + 1; i++)
                 {
-                    if (File.Exists(file) && sheet.GetRow(i).Cells[1].ToString() == file)
+                    if (File.Exists(file) && sheet.GetRow(i).Cells[2].ToString() == file)
                     {
                         flag = true;
                         break;
@@ -120,8 +132,11 @@ namespace FileTest2
                         FileInfo fi = new FileInfo(file);
                         row = sheet.CreateRow(tempCount);
                         row.CreateCell(0).SetCellValue(sheet.LastRowNum);
-                        row.CreateCell(1).SetCellValue(file);
-                        row.CreateCell(2).SetCellValue(fi.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss"));
+                        row.CreateCell(1).SetCellValue(fi.Name);
+                        row.CreateCell(2).SetCellValue(file);
+                        row.CreateCell(3).SetCellValue(fi.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss"));
+                        row.CreateCell(4).SetCellValue(false);
+                        row.CreateCell(5).SetCellValue("");
 
                     }
                 }
@@ -130,16 +145,16 @@ namespace FileTest2
             {
                 DataRow dr = dt.NewRow();
                 dr["序号"] = i;
-                dr["文件路径"] = sheet.GetRow(i).Cells[1].ToString();
-                FileInfo fi = new FileInfo(sheet.GetRow(i).Cells[1].ToString());
-                dr["上次修改时间"] = sheet.GetRow(i).Cells[2].ToString();
-
-                if(sheet.GetRow(i).Cells[3]==null)
+                dr["文件名"] = sheet.GetRow(i).Cells[1].ToString();
+                dr["文件路径"] = sheet.GetRow(i).Cells[2].ToString();
+                FileInfo fi = new FileInfo(sheet.GetRow(i).Cells[2].ToString());
+                dr["上次修改时间"] = sheet.GetRow(i).Cells[3].ToString();
+                if(sheet.GetRow(i).Cells[4]==null)
                 {
                   dr["是否重要"] = false;
                 }else
                 {
-                    if (sheet.GetRow(i).Cells[3].ToString().ToLower() == "false")
+                    if (sheet.GetRow(i).Cells[4].ToString().ToLower() == "false")
                     {
                         dr["是否重要"] = false;
                     }
@@ -148,16 +163,18 @@ namespace FileTest2
                         dr["是否重要"] = true;
                     }
                 }
+                dr["文件备注"] = string.IsNullOrEmpty(sheet.GetRow(i).Cells[5].ToString()) ? null : sheet.GetRow(i).Cells[5].ToString();
+
                 dt.Rows.Add(dr);
 
             }
+            DataView dv = dt.DefaultView;//文件备注 desc,
+            dv.Sort = "是否重要 desc,文件备注 asc";
             using (fs = File.OpenWrite(filePath))
             {
                 workbook.Write(fs);
             }
-
-
-            return dt;
+            return dv.ToTable();
         }
         /// <summary>
         /// 重新写入excel
@@ -180,18 +197,25 @@ namespace FileTest2
                 //设置列头  
                 row = sheet.CreateRow(0);//excel第一行设为列头  
                 row.CreateCell(0).SetCellValue("序号");
-                row.CreateCell(1).SetCellValue("文件路径");
-                row.CreateCell(2).SetCellValue("上次修改时间");
-                row.CreateCell(3).SetCellValue("是否重要");
+                row.CreateCell(1).SetCellValue("文件名");
+                row.CreateCell(2).SetCellValue("文件路径");
+                row.CreateCell(3).SetCellValue("上次修改时间");
+                row.CreateCell(4).SetCellValue("是否重要");
+                row.CreateCell(5).SetCellValue("文件备注");
+
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    if (File.Exists(dt.Rows[i][1].ToString()))
+                    if (File.Exists(dt.Rows[i][2].ToString()))
                     {
                         row = sheet.CreateRow(i+1);
                         row.CreateCell(0).SetCellValue(dt.Rows[i][0].ToString());
                         row.CreateCell(1).SetCellValue(dt.Rows[i][1].ToString());
                         row.CreateCell(2).SetCellValue(dt.Rows[i][2].ToString());
                         row.CreateCell(3).SetCellValue(dt.Rows[i][3].ToString());
+                        row.CreateCell(4).SetCellValue(dt.Rows[i][4].ToString());
+
+                        row.CreateCell(5).SetCellValue(dt.Rows[i][5] == null ? "" : dt.Rows[i][5].ToString());
+
                     }
                 }
               

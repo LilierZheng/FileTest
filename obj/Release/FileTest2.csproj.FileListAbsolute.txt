@@ -1,0 +1,12 @@
+F:\Lily\FileManage\FileTest2\bin\Release\FileTest2.exe.config
+F:\Lily\FileManage\FileTest2\obj\Release\Interop.IWshRuntimeLibrary.dll
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.csproj.ResolveComReference.cache
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.csprojResolveAssemblyReference.cache
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.FrmMain.resources
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.Properties.Resources.resources
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.csproj.GenerateResource.Cache
+F:\Lily\FileManage\FileTest2\bin\Release\FileTest2.exe
+F:\Lily\FileManage\FileTest2\bin\Release\FileTest2.pdb
+F:\Lily\FileManage\FileTest2\bin\Release\NPOI.xml
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.exe
+F:\Lily\FileManage\FileTest2\obj\Release\FileTest2.pdb
